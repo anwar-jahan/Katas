@@ -12,41 +12,49 @@ public class KataTennisGame {
 
 	public String getScoreResults() {
 
-		if (playerOne.getScore() >= 3 && playerTwo.getScore() >= 3) {
-			if((playerTwo.getScore()-playerOne.getScore())>=2){
-				return advancePlayer().getName()+" : Win and Score:"+scoreTransfer(advancePlayer().getScore());
-			}
-			else if(playerTwo.getScore()==playerOne.getScore()){
-				return "Deuce";
-			}
-			else{
-				return "Advantage :"+advancePlayer().getName()+" And Score: "+scoreTransfer(advancePlayer().getScore());
-			}
+		int scoreDifferenc = higerScorePlayer().getScore()
+				- lowestScorePlayer().getScore();
+
+		if (higerScorePlayer().getScore() >= 4 && scoreDifferenc >= 2) {
+			return higerScorePlayer().getName() + " : Won";
+		} else if (playerTwo.getScore() == playerOne.getScore()
+				&& higerScorePlayer().getScore() >= 3) {
+			return "Deuce";
+		} else if (higerScorePlayer().getScore() >= 4 && scoreDifferenc == 1) {
+			return "Advantage :" + higerScorePlayer().getName();
+			
 		} else {
-			return "PlayerName :"+playerOne.getName()+" Score:"+scoreTransfer(playerOne.getScore())+" PlayerName :"+playerTwo.getName()+" Score:"+scoreTransfer(playerTwo.getScore()) ;
+			return playerOne.getName() + " Score:"
+					+ scoreTransfer(playerOne.getScore()) + ", "
+					+ playerTwo.getName() + " Score:"
+					+ scoreTransfer(playerTwo.getScore());
 		}
 	}
 
-	public Player advancePlayer() {
+	public Player higerScorePlayer() {
 		return (playerOne.getScore() > playerTwo.getScore()) ? playerOne
 				: playerTwo;
 	}
-	
-	public String scoreTransfer(int score) throws IllegalArgumentException{
-		switch(score){
-		case 0: return "Love";
-		case 1: return "Fifteen";
-		case 2: return "Thirty";
-		case 3: return "Forty";
-		}
-		return "Illegal Score "+score;
-		
-	}
-	public static void main(String[] args){
-		Player playerOne=new Player("Anwar", 0);
-		Player playerTwo=new Player("Jahan", 0);
-		KataTennisGame game=new KataTennisGame(playerOne, playerTwo);
-		System.out.println(game.getScoreResults());
+
+	public Player lowestScorePlayer() {
+		return (playerOne.getScore() > playerTwo.getScore()) ? playerTwo
+				: playerOne;
 	}
 
+	public String scoreTransfer(int score) {
+		switch (score) {
+		case 0:
+			return "Love";
+		case 1:
+			return "Fifteen";
+		case 2:
+			return "Thirty";
+		case 3:
+			return "Forty";
+
+		default:
+			return "Unknown";
+		}
+
+	}
 }
